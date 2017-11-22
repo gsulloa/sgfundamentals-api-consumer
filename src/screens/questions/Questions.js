@@ -10,6 +10,7 @@ import { getQuestions } from "../../redux/modules/questions"
 
 const mapStateToProps = state => ({
   questions: state.questions.data,
+  fetching: state.questions.fetching,
 })
 const mapDispatchToProps = dispatch => ({
   getQuestions: () => dispatch(getQuestions()),
@@ -32,36 +33,40 @@ class Questions extends Component {
     return (
       <ContainerCenter>
         <Panel>
-          <table>
-            <thead>
-              <tr>
-                <th>#</th>
-                <th>Titulo</th>
-                <th>Fecha</th>
-                <th>Acciones</th>
-              </tr>
-            </thead>
-            <tbody>
-              {this.props.questions.map((question, i) => {
-                return (
-                  <tr key={question.id}>
-                    <td>
-                      {i + 1}
-                    </td>
-                    <td>
-                      {question.title}
-                    </td>
-                    <td>
-                      {question["created-at"]}
-                    </td>
-                    <td>
-                      <Link to={routes.question_path(question.id)}>Ver</Link>
-                    </td>
+          {this.props.fetching
+            ? <h1>Loading</h1>
+            : <table>
+                <thead>
+                  <tr>
+                    <th>#</th>
+                    <th>Titulo</th>
+                    <th>Fecha</th>
+                    <th>Acciones</th>
                   </tr>
-                )
-              })}
-            </tbody>
-          </table>
+                </thead>
+                <tbody>
+                  {this.props.questions.map((question, i) => {
+                    return (
+                      <tr key={question.id}>
+                        <td>
+                          {i + 1}
+                        </td>
+                        <td>
+                          {question.title}
+                        </td>
+                        <td>
+                          {question["created-at"]}
+                        </td>
+                        <td>
+                          <Link to={routes.question_path(question.id)}>
+                            Ver
+                          </Link>
+                        </td>
+                      </tr>
+                    )
+                  })}
+                </tbody>
+              </table>}
         </Panel>
       </ContainerCenter>
     )

@@ -31,7 +31,7 @@ export default function questions(state = initialState, action) {
         ...state,
         fetching: true,
       }
-    case `${type}_FETC_END`:
+    case `${type}_FETCH_END`:
       return {
         ...state,
         fetching: false,

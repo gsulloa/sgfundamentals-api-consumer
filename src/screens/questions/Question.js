@@ -18,6 +18,7 @@ const mapStateToProps = (state, ownProps) => {
     question: question.user
       ? question
       : { ...question, user: {}, comments: [] },
+    fetching: state.questions.fetching,
   }
 }
 const mapDispatchToProps = (dispatch, ownProps) => ({
@@ -48,34 +49,38 @@ class Question extends Component {
     return (
       <ContainerCenter>
         <Panel>
-          <h1>
-            {question.title}
-          </h1>
-          <p>
-            {question.content}
-          </p>
-          <div>
-            <small>
-              Autor: {question.user.username}
-            </small>
-          </div>
-          <div>
-            {question.comments.length
-              ? <Ul>
-                  {question.comments.map(comment => {
-                    return (
-                      <li key={comment.id}>
-                        <strong>(user_id) {comment.userId}</strong>:&nbsp;{comment.content}
-                      </li>
-                    )
-                  })}
-                </Ul>
-              : <P color="red">
-                  Actualmente no hay comentarios, debes ingresar a la página
-                  oficial para poder hacerlos!
-                </P>}
-          </div>
-          <Link to={routes.questions_path}>Volver</Link>
+          {this.props.fetching
+            ? <h1> Loading </h1>
+            : <div>
+                <h1>
+                  {question.title}
+                </h1>
+                <p>
+                  {question.content}
+                </p>
+                <div>
+                  <small>
+                    Autor: {question.user.username}
+                  </small>
+                </div>
+                <div>
+                  {question.comments.length
+                    ? <Ul>
+                        {question.comments.map(comment => {
+                          return (
+                            <li key={comment.id}>
+                              <strong>(user_id) {comment.userId}</strong>:&nbsp;{comment.content}
+                            </li>
+                          )
+                        })}
+                      </Ul>
+                    : <P color="red">
+                        Actualmente no hay comentarios, debes ingresar a la
+                        página oficial para poder hacerlos!
+                      </P>}
+                </div>
+                <Link to={routes.questions_path}>Volver</Link>
+              </div>}
         </Panel>
       </ContainerCenter>
     )
