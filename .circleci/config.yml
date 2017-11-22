@@ -1,0 +1,61 @@
+version: 2
+jobs:
+  build:
+    docker:
+      - image: circleci/node:8.4
+    working_directory: ~/web
+    steps:
+      - checkout
+      - restore_cache:
+          keys:
+          - v2-cache-{{ checksum "package.json" }}
+          - v2-cache-
+
+      - run: sudo npm i -g yarn
+      - run: yarn
+
+      - save_cache:
+          paths:
+            - node_modules
+          key: v2-cache-{{ checksum "package.json" }}
+
+      - run: yarn test -- --coverage
+      - run: yarn lint
+      - run: yarn build
+
+      - store_test_results:
+          path: ./coverage
+      - store_artifacts:
+          path: ./coverage/junit.xml
+          destination: junit/junit.xml
+      - store_artifacts:
+          path: ./coverage/lcov-report
+          destination: coverage
+  deploy:
+    docker:
+      - image: circleci/node:8.4
+    working_directory: ~/web
+    steps:
+      - checkout
+      - run: wget -qO- https://cli-assets.heroku.com/install-ubuntu.sh | sh
+      - run: bash .circleci/setup-heroku.sh $CIRCLE_BRANCH
+      - add_ssh_keys:
+          fingerprints:
+            - "48:a0:87:54:ca:75:32:12:c6:9e:a2:77:a4:7a:08:a4"
+      - deploy:
+          name: Deploy to Heroku
+          command: git push heroku $CIRCLE_BRANCH:master
+
+workflows:
+  version: 2
+  workflow:
+      jobs:
+        - build
+        - deploy:
+            requires:
+              - build
+            filters:
+              branches:
+                only:
+                  - master
+                  - dev
