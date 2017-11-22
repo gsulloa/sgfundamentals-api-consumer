@@ -10,6 +10,8 @@ import Authorization from "./components/Authorization"
 
 import Home from "./screens/Home"
 import Login from "./screens/Login"
+import Questions from "./screens/questions/Questions"
+import Question from "./screens/questions/Question"
 import NotFound from "./screens/NotFound"
 
 const siteTitle = title =>
@@ -166,7 +168,12 @@ class Navigator extends Component {
         <Switch>
           <Route exact path={routes.home_path} component={Home} />
           <Route exact path={routes.login_path} component={Login} />
-          <Route exact path={routes.questions_path} component={UserScreen(Home)} />
+          <Route exact path={routes.questions_path} component={Questions} />
+          <Route
+            exact
+            path={routes.question_path(":id")}
+            component={Question}
+          />
           <Route component={NotFound} title="Not found" />
         </Switch>
       </App>

@@ -3,4 +3,5 @@ export default {
   home_path: realPath("/"),
   login_path: realPath("/login"),
   questions_path: realPath("/questions"),
+  question_path: id => realPath(`/questions/${id}`),
 }

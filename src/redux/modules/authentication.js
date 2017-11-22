@@ -48,7 +48,7 @@ export function loginUser(creds) {
     if (response.error) {
       dispatch(newErrorAlert("Error en ingreso", response.data.response.data))
     } else {
-      const data = response.token.substr(7).split(".")
+      const data = response.token.split(".")
       const userInfo = JSON.parse(atob(data[1]))
       dispatch(
         receiveLogin(
@@ -56,7 +56,7 @@ export function loginUser(creds) {
             userId: userInfo.userId,
             role: "user",
           },
-          response.token.substr(7)
+          response.token
         )
       )
       dispatch(push("/"))

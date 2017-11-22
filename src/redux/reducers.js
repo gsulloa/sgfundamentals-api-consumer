@@ -5,12 +5,14 @@ import router from "./modules/router"
 
 import authentication from "./modules/authentication"
 import alert from "./modules/alert"
+import questions from "./modules/questions"
 
 const reducer = combineReducers({
   hydratation,
   router,
   authentication,
   alert,
+  questions,
 })
 
 const rootReducer = (state, action) => {
