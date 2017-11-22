@@ -1,11 +1,29 @@
-# Boilerplate
+# SGFundamentals API consumer
+ReactJS application to test how [SGFundamentals](https://sgfundamentals.herokuapp.com/) expose a REST API.
+## Development
 
-Boilerplate entregado por [Nicolás Gebauer](https://github.com/negebauer).
+**Requirements**
+- Node.js 8.5
+- Yarn
 
-### Consideraciones
-- Reducers colocarlos en la carpeta **redux/modules**, e importarlos en **reducers.js**
-- Cualquier componente nuevo agregarlo en la carpeta **components**
-- Llamados a alguna Api se deben definir en la carpeta **Apis**, con un archivo para cada Api
-- Los componentes más generales son "*Screens*", y deben estar en la carpeta **screens**
-- Los elementos renderizados por *Router* deben ser *Screens*
-- Las acciones que gatillen cambios, deben ser definidas en **redux/actions**
+Clone this repository
+```sh
+git clone git@github.com:gsulloa/sgfundamentals-api-consumer.git
+cd sgfundamentals-api-consumer
+```
+
+Install dependencies:
+```sh
+yarn
+```
+
+Make sure to set the next enviroment variables:
+```txt
+REACT_APP_API=https://localhost:3000/
+```
+Recommended use of [direnv](https://github.com/direnv/direnv)
+
+Start the project at ```http://localhost:8080```
+```sh
+yarn start
+```

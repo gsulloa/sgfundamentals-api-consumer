@@ -2,6 +2,7 @@
   "name": "web",
   "version": "0.1.0",
   "private": true,
+  "homepage": "https://gsulloa.github.io/sgfundamentals-api-consumer",
   "scripts": {
     "start": "PORT=8080 react-scripts start",
     "build": "react-scripts build",
@@ -11,12 +12,14 @@
     "test:snap": "CI=true react-scripts test --env=jsdom -u",
     "eject": "react-scripts eject",
     "lint": "eslint ./src",
-    "lint:fix": "eslint --fix ./src"
+    "lint:fix": "eslint --fix ./src",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build"
   },
   "dependencies": {
+    "axios": "^0.17.1",
     "history": "^4.6.3",
     "lodash": "^4.17.4",
-    "popsicle": "^9.1.0",
     "prop-types": "^15.5.10",
     "react": "^15.6.1",
     "react-dom": "^15.6.1",
@@ -39,6 +42,7 @@
     "eslint-config-prettier": "^2.3.0",
     "eslint-plugin-prettier": "^2.2.0",
     "eslint-plugin-react": "^7.2.1",
+    "gh-pages": "^1.1.0",
     "jest-enzyme": "^3.8.0",
     "jest-junit": "^2.1.0",
     "prettier": "^1.5.3",

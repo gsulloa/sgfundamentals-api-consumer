@@ -14,7 +14,7 @@ const client = new Api(
 
 // Redux required objects
 const initialState = {}
-const store = configureStore(initialState, history, { client })
+const store = configureStore(initialState, history, { api: client })
 
 // App general settings
 const options = { hydratation: { blacklist: ["hydratation", "router"] } }

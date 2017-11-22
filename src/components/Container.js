@@ -16,4 +16,13 @@ export const ContainerCenter = styled(Container)`
   text-align: center;
 `
 
+export const Panel = styled.div`
+  padding: 50px;
+  border: 1px solid black;
+  border-radius: 15px;
+  box-shadow: 10px 10px 5px #888888;
+`
+
+export const Col = styled.div``
+
 export default Container

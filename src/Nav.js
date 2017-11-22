@@ -4,11 +4,16 @@ import { connect } from "react-redux"
 import { Route as RouteDom, Link, Switch, withRouter } from "react-router-dom"
 import { Helmet } from "react-helmet"
 import styled from "styled-components"
+import { logoutUser } from "./redux/modules/authentication"
+import routes from "./routes"
+import Authorization from "./components/Authorization"
 
 import Home from "./screens/Home"
+import Login from "./screens/Login"
 import NotFound from "./screens/NotFound"
 
-const siteTitle = title => (title ? `IIC2113 | ${title}` : "IIC2113 Web")
+const siteTitle = title =>
+  title ? `SGFundamentals | ${title}` : "SGFundamentals"
 
 const App = styled.div`
   width: 100%;
@@ -45,6 +50,20 @@ const NavHref = styled(Link)`
   text-decoration: none;
   font-weight: lighter;
   cursor: pointer;
+  :hover {
+    color: #00bfff;
+  }
+`
+const NavButton = styled.button`
+  padding: 0 12px;
+  color: ${props => (props.className === "active" ? "#00bfff" : "white")};
+  text-decoration: none;
+  font-weight: lighter;
+  cursor: pointer;
+  background: black;
+  box-shadow: none;
+  border: none;
+  font-size: 17px;
   :hover {
     color: #00bfff;
   }
@@ -87,28 +106,6 @@ Route.propTypes = {
   title: PropTypes.string,
 }
 
-const Footer = styled.div`
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  width: 100%;
-  height: 40px;
-  display: flex;
-  flex-flow: row;
-  justify-content: space-between;
-  align-items: center;
-  background-color: lightGray;
-`
-
-const FooterSection = styled.div`
-  display: flex;
-  flex-flow: row;
-`
-
-const FooterLeft = styled(FooterSection)``
-
-const FooterRight = styled(FooterSection)``
-
 const FooterHref = styled.a`
   padding: 0 12px;
   color: ${props => (props.active ? "blueviolet" : "black")};
@@ -130,42 +127,48 @@ FooterLink.propTypes = {
   label: PropTypes.string.isRequired,
 }
 
-const mapStateToProps = () => ({})
+const mapStateToProps = state => ({
+  isAuthenticated: state.authentication.isAuthenticated,
+})
 
-const mapDispatchToProps = {}
+const mapDispatchToProps = dispatch => ({
+  logout: () => dispatch(logoutUser()),
+})
 
+const UserScreen = Authorization(["user"])
 class Navigator extends Component {
-  render() {
+  static propTypes = {
+    logout: PropTypes.func,
+    isAuthenticated: PropTypes.bool,
+  }
+  logout = () => {
+    this.props.logout()
+  }
+  render = () => {
     return (
       <App>
         <Nav>
           <NavLeft>
-            <NavLink to="/" label="IIC2113 Web" exact ignore />
-            <NavLink to="/other1" label="Other 1" />
-            <NavLink to="/other2" label="Other 2" />
+            <NavLink
+              to={routes.home_path}
+              label="SGFundamentals"
+              exact
+              ignore
+            />
+            <NavLink to={routes.questions_path} label="Preguntas" />
           </NavLeft>
           <NavRight>
-            <NavLink to="/go" label="Accesos" />
+            {this.props.isAuthenticated
+              ? <NavButton onClick={this.logout}>Logout</NavButton>
+              : <NavLink to={routes.login_path} label="Login" exact />}
           </NavRight>
         </Nav>
         <Switch>
-          <Route exact path="/" component={Home} />
-          {/* <Route exact path="/go" component={Go} title="Accesos" /> */}
-          {/* <Route path="/go/siding" component={GoSiding} title="Siding" /> */}
+          <Route exact path={routes.home_path} component={Home} />
+          <Route exact path={routes.login_path} component={Login} />
+          <Route exact path={routes.questions_path} component={UserScreen(Home)} />
           <Route component={NotFound} title="Not found" />
         </Switch>
-        <Footer>
-          <FooterLeft>
-            <FooterLink
-              to="mailto:info@negebauer.com?subject=Contacto%20web&body=%0D%0A%0D%0AEnviado%20desde%20https://negebauer.com"
-              label="Mail"
-            />
-            <FooterLink to="https://t.me/negebauer" label="Telegram" />
-          </FooterLeft>
-          <FooterRight>
-            <FooterLink to="https://github.com/negebauer" label="Github" />
-          </FooterRight>
-        </Footer>
       </App>
     )
   }
