@@ -1,6 +1,7 @@
 import { push } from "react-router-redux"
 import { newErrorAlert } from "./alert"
 import { doFetch } from "./fetching"
+import routes from "../../routes"
 
 export const LOGIN_SUCCESS = "LOGIN_SUCCESS"
 export const LOGOUT_SUCCESS = "LOGOUT_SUCCESS"
@@ -59,7 +60,7 @@ export function loginUser(creds) {
           response.token
         )
       )
-      dispatch(push("/"))
+      dispatch(push(routes.home_path))
     }
   }
 }
@@ -68,7 +69,7 @@ export function logoutUser() {
   return async dispatch => {
     // dispatch(receiveLogout())
     dispatch({ type: "CLEAR_STORE" })
-    dispatch(push("/login"))
+    dispatch(push(routes.login_path))
   }
 }
 

@@ -168,7 +168,11 @@ class Navigator extends Component {
         <Switch>
           <Route exact path={routes.home_path} component={Home} />
           <Route exact path={routes.login_path} component={Login} />
-          <Route exact path={routes.questions_path} component={Questions} />
+          <Route
+            exact
+            path={routes.questions_path}
+            component={UserScreen(Questions)}
+          />
           <Route
             exact
             path={routes.question_path(":id")}
