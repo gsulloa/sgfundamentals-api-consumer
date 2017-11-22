@@ -12,6 +12,7 @@ import Home from "./screens/Home"
 import Login from "./screens/Login"
 import Questions from "./screens/questions/Questions"
 import Question from "./screens/questions/Question"
+import { CreateQuestion, UpdateQuestion } from "./screens/questions/Forms"
 import NotFound from "./screens/NotFound"
 
 const siteTitle = title =>
@@ -152,30 +153,40 @@ class Navigator extends Component {
         <Nav>
           <NavLeft>
             <NavLink
-              to={routes.home_path}
+              to={routes.homePath}
               label="SGFundamentals"
               exact
               ignore
             />
-            <NavLink to={routes.questions_path} label="Preguntas" />
+            <NavLink to={routes.questionsPath} label="Preguntas" />
           </NavLeft>
           <NavRight>
             {this.props.isAuthenticated
               ? <NavButton onClick={this.logout}>Logout</NavButton>
-              : <NavLink to={routes.login_path} label="Login" exact />}
+              : <NavLink to={routes.loginPath} label="Login" exact />}
           </NavRight>
         </Nav>
         <Switch>
-          <Route exact path={routes.home_path} component={Home} />
-          <Route exact path={routes.login_path} component={Login} />
+          <Route exact path={routes.homePath} component={Home} />
+          <Route exact path={routes.loginPath} component={Login} />
           <Route
             exact
-            path={routes.questions_path}
+            path={routes.questionsPath}
             component={UserScreen(Questions)}
           />
           <Route
             exact
-            path={routes.question_path(":id")}
+            path={routes.questionsNewPath}
+            component={UserScreen(CreateQuestion)}
+          />
+          <Route
+            exact
+            path={routes.questionsEditPath(":id")}
+            component={UserScreen(UpdateQuestion)}
+          />
+          <Route
+            exact
+            path={routes.questionPath(":id")}
             component={Question}
           />
           <Route component={NotFound} title="Not found" />

@@ -79,7 +79,8 @@ class Question extends Component {
                         página oficial para poder hacerlos!
                       </P>}
                 </div>
-                <Link to={routes.questions_path}>Volver</Link>
+                <Link to={routes.questionsPath}>Volver</Link>&nbsp;&nbsp;
+                <Link to={routes.questionsEditPath(question.id)}>Editar</Link>
               </div>}
         </Panel>
       </ContainerCenter>

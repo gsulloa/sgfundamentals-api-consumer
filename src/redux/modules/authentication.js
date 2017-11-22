@@ -60,7 +60,7 @@ export function loginUser(creds) {
           response.token
         )
       )
-      dispatch(push(routes.home_path))
+      dispatch(push(routes.homePath))
     }
   }
 }
@@ -69,7 +69,7 @@ export function logoutUser() {
   return async dispatch => {
     // dispatch(receiveLogout())
     dispatch({ type: "CLEAR_STORE" })
-    dispatch(push(routes.login_path))
+    dispatch(push(routes.loginPath))
   }
 }
 

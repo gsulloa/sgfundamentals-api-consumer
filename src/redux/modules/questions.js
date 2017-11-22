@@ -1,5 +1,7 @@
 import { doFetch } from "./fetching"
-import { newErrorAlert } from "./alert"
+import { newErrorAlert, newSuccessAlert } from "./alert"
+import { push } from "react-router-redux"
+import routes from "../../routes"
 
 const SET_QUESTIONS = "SET_QUESTIONS"
 const SET_QUESTION = "SET_QUESTION"
@@ -63,6 +65,12 @@ function fetchQuestions(api) {
 function fetchQuestion(api, id) {
   return api.get(`/questions/${id}`)
 }
+function createQuestion(api, data) {
+  return api.post("/questions", data)
+}
+function updateQuestion(api, data, id) {
+  return api.patch(`/questions/${id}`, data)
+}
 
 export function getQuestions() {
   return async (dispatch, getState, api) => {
@@ -90,6 +98,42 @@ export function getQuestion(id) {
       dispatch(newErrorAlert("Error al obtener la preguntas"))
     } else {
       dispatch(setQuestion(response.data))
+    }
+  }
+}
+
+export function newQuestion(data) {
+  return async (dispatch, getState, api) => {
+    const response = await doFetch(
+      dispatch,
+      createQuestion(api.api.withToken(getState().authentication.token), data),
+      type
+    )
+    if (response.error) {
+      dispatch(newErrorAlert("Error al crear la pregunta"))
+    } else {
+      dispatch(newSuccessAlert("Pregunta creada exitosamente"))
+      dispatch(push(routes.questionsPath))
+    }
+  }
+}
+
+export function editQuestion(data, id) {
+  return async (dispatch, getState, api) => {
+    const response = await doFetch(
+      dispatch,
+      updateQuestion(
+        api.api.withToken(getState().authentication.token),
+        data,
+        id
+      ),
+      type
+    )
+    if (response.error) {
+      dispatch(newErrorAlert("Error al actualizar la pregunta"))
+    } else {
+      dispatch(newSuccessAlert("Pregunta actualizada exitosamente"))
+      dispatch(push(routes.questionPath(id)))
     }
   }
 }

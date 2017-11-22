@@ -58,15 +58,14 @@ class Questions extends Component {
                           {question["created-at"]}
                         </td>
                         <td>
-                          <Link to={routes.question_path(question.id)}>
-                            Ver
-                          </Link>
+                          <Link to={routes.questionPath(question.id)}>Ver</Link>
                         </td>
                       </tr>
                     )
                   })}
                 </tbody>
               </table>}
+          <Link to={routes.questionsNewPath}>Nueva Pregunta</Link>
         </Panel>
       </ContainerCenter>
     )
